@@ -1,6 +1,5 @@
 import requests
 
-
 class BaseHTMLFetcher:
     DEFAULT_AGENT = "Chrome/138.0.0.0 Safari/537.36"
     def __init__(self, url: str, user_aget: str = None, timeout: int = None) -> None:

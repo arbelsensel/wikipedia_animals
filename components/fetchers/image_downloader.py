@@ -1,7 +1,7 @@
 import logging
 import os
 
-from fetchers.base_fetcher import BaseHTMLFetcher
+from components.fetchers.base_fetcher import BaseHTMLFetcher
 
 
 class ImageDownloader:

@@ -4,9 +4,9 @@ from typing import Tuple, List, Dict
 
 from bs4 import BeautifulSoup, Tag, ResultSet
 
-from scrapers.extractors.base_extractor import BaseCellsExtractor
-from fetchers.base_fetcher import BaseHTMLFetcher
-from fetchers.image_downloader import ImageDownloader
+from components.scrapers.extractors.base_extractor import BaseCellsExtractor
+from components.fetchers.base_fetcher import BaseHTMLFetcher
+from components.fetchers.image_downloader import ImageDownloader
 
 
 class ImageNotFound(Exception):
@@ -17,7 +17,7 @@ class BaseHTMLScraper:
     """
     Base class for fetchers page scrapers
     """
-    def __init__(self, url: str):
+    def __init__(self, url: str, *args, **kwargs):
         """
         BaseHTMLScraper constructor
         :param url: the url of the fetchers page

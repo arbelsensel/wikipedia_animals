@@ -3,7 +3,7 @@ from typing import List, Tuple
 from bs4 import ResultSet
 
 import urllib.parse as urlparse
-from scrapers.extractors.base_extractor import BaseCellsExtractor
+from components.scrapers.extractors.base_extractor import BaseCellsExtractor
 from utils import clean_str
 
 

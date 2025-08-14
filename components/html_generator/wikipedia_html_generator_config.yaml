@@ -1,0 +1,29 @@
+html_start: |
+  <!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="UTF-8">
+      <title>Animal Collateral Adjectives</title>
+      <style>
+          body { font-family: Arial, sans-serif; }
+          table { border-collapse: collapse; width: 100%; }
+          th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: top; }
+          th { background-color: #f4f4f4; }
+          img { max-width: 150px; max-height: 150px; display: block; margin-top: 4px; }
+          .animal-entry { margin-bottom: 12px; }
+          .local-path { font-size: 0.85em; color: #555; }
+      </style>
+  </head>
+  <body>
+      <h1>Animal Collateral Adjectives</h1>
+      <table>
+          <tr>
+              <th>Collateral Adjective</th>
+              <th>Animals</th>
+          </tr>
+
+html_end: |
+  </table>
+  <p><em>Generated on: {date}</em></p>
+  </body>
+  </html>

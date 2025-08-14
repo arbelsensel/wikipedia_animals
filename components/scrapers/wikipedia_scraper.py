@@ -1,6 +1,6 @@
 import re
 
-from scrapers.base_scrapers import BaseHTMLScraper
+from components.scrapers.base_scrapers import BaseHTMLScraper
 
 
 class WikiScraper(BaseHTMLScraper):
