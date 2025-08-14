@@ -1,25 +1,24 @@
-from main import download_image
-import urllib.parse as urlparse
+from unittest.mock import patch, Mock
+
+from components.fetchers.image_downloader import ImageDownloader
 import os
 import tempfile
 
-URL_PREFIX = "https://en.wikipedia.org"
-# test_dict = {
-#             "url": urlparse.urljoin(URL_PREFIX, "/wiki/Gnat"),
-#             "image_name": "Gnat",
-#             "directory": tmpdir
-#         }
+from tests.tests_data.test_data import test_image_path
 
-def test_download_image():
+
+@patch("components.fetchers.image_downloader.BaseHTMLFetcher.fetch")
+def test_download_image(mock_fetch):
+    with open(test_image_path, 'rb') as f:
+        image_bytes = f.read()
+    mock_response = Mock()
+    mock_response.content = image_bytes
+    mock_response.status_code = 200
+    mock_fetch.return_value = mock_response
+
     with tempfile.TemporaryDirectory() as tmpdir:
-        test_dict = {
-            "url": urlparse.urljoin(URL_PREFIX, "/wiki/Cockroach"),
-            "image_name": "Cockroach",
-            "directory": tmpdir
-        }
-
-        download_image(**test_dict)
-
-        assert(os.path.exists(os.path.join(tmpdir, f"{test_dict['image_name']}.png"))), f"{test_dict['image_name']} image is not downloaded"
+        ImageDownloader(url="mock", directory=tmpdir, file_name="test.png").download()
+        assert os.path.exists(os.path.join(tmpdir, "test.png")), \
+            f"ImageDownloader failed to create the file {os.path.join(tmpdir, 'test.png')}"
 
 
