@@ -1,4 +1,8 @@
 import os
+from collections import defaultdict
+
+good_url = 'https://google.com'
+bad_url = 'https://notexistingblabla.com'
 
 mapping_dict = {
 'scolopacine': [('Dunlin', 'https://en.wikipedia.org/wiki/Dunlin'),
@@ -7,3 +11,23 @@ mapping_dict = {
 }
 
 test_image_path = os.path.join(os.path.dirname(__file__), "test.jpg")
+
+mock_html_table = """
+<table>
+    <tr>
+        <th>Header1</th>
+        <th>Header2</th>
+    </tr>
+    <tr>
+        <td>Row1Col1</td>
+        <td>Row1Col2</td>
+    </tr>
+    <tr>
+        <td>Row2Col1</td>
+        <td>Row2Col2</td>
+    </tr>
+</table>
+"""
+mock_html_table_headers = ("Header1", "Header2")
+
+mapping_dict_result = defaultdict(list, {'Row1Col1': ['Row1Col2'], 'Row2Col1': ['Row2Col2']})

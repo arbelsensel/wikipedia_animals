@@ -2,9 +2,8 @@ import pytest
 import requests
 
 from components.fetchers.base_fetcher import BaseHTMLFetcher
+from tests.tests_data.test_data import good_url, bad_url
 
-good_url = 'https://google.com'
-bad_url = 'https://notexistingblabla.com'
 
 def test_fetch():
     fetcher = BaseHTMLFetcher(url=good_url)

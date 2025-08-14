@@ -15,4 +15,4 @@ class BaseCellsExtractor:
         self.col_idx = col_idx
 
     def extract(self, cells: ResultSet) -> List[Any]:
-        raise NotImplementedError("extract method is not implemented")
+        return [cells[self.col_idx].text]
