@@ -4,7 +4,7 @@ import logging
 import time
 
 from components.scrapers.wikipedia_collateral_adjective_scraper import WikipediaCollateralAdjectiveScraper
-from utils import abs_path
+from components.utils import abs_path
 
 
 def parse_args():
