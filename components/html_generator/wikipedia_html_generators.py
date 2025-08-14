@@ -23,15 +23,15 @@ class WikipediaCollateralAdjectiveHTMLGenerator(HTMLGenerator):
         """
         super().__init__(output_dir, output_file_name, config_path)
 
-    def generate(self, mapping: Dict[str, List[Tuple[str]]]) -> str:
+    def generate(self, data: Dict[str, List[Tuple[str]]]) -> str:
         """
         generates the HTML page for collateral adjectives of animals
-        :param mapping: dictionary mapping collateral adjectives to list of animals tuple
+        :param data: dictionary mapping collateral adjectives to list of animals tuple
         :return: the HTML page
         """
         html = self.config.get("html_start")
 
-        for adj, animals_list in mapping.items():
+        for adj, animals_list in data.items():
             animal_cells = ""
             for animal in animals_list:
                 name = animal[0]
@@ -42,7 +42,7 @@ class WikipediaCollateralAdjectiveHTMLGenerator(HTMLGenerator):
                     img_path = os.path.join(self.output_dir, f"{name.lower()}.png")
                 else:
                     img_path = "No image found"
-                # Each animal entry: name + clickable image + local path string
+
                 animal_cells += f"""
                 <div class="animal-entry">
                                         <a href="{img_path}">{name}</a><br/>

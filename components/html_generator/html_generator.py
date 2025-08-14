@@ -1,7 +1,7 @@
 import os
 from typing import Any
 
-from components.utils import load_yaml
+from utils import load_yaml
 
 
 class HTMLGenerator:
