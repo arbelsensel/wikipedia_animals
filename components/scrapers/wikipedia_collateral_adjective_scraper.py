@@ -59,8 +59,8 @@ class WikipediaCollateralAdjectiveScraper(WikiScraper):
         :param images_set:
         """
 
-        ### The download_image_with_scraper is mostly I/O bound task since it's getting the image by request
-        ### and then writing it to disk, therefore its make sense to use multithreading over it.
+        # The download_image_with_scraper is mostly I/O bound task since it's getting the image by request
+        # and then writing it to disk, therefore its make sense to use multithreading over it.
 
         if self.use_threading:
             max_threads = min(self.MAX_THREADS, len(images_set))

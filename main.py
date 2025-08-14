@@ -8,6 +8,13 @@ from utils import abs_path
 
 
 def parse_args():
+    """
+    parse command line arguments:
+    -v or --verbose to control log level (INFO if passed, ERROR if not), default is ERROR
+    -d or --debug to control using of threading (if passed will not use threading), default is using threads
+    --output_directory to control the output directory name, default is /tmp
+    --display_results to display results on browser at the end of run, default is False
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-d", "--debug",
@@ -32,15 +39,17 @@ def parse_args():
     return parser.parse_args()
 
 def main():
+    """
+    main function to run the WikipediaCollateralAdjectiveScraper
+    """
 
     args = parse_args()
-
     logging.basicConfig(
         level=logging.INFO if args.verbose else logging.ERROR,
     )
 
-    scraper = WikipediaCollateralAdjectiveScraper(use_threading=not args.debug, output_dir=args.output_dir)
-    output_file_path = scraper.scrape()
+    output_file_path = WikipediaCollateralAdjectiveScraper(use_threading=not args.debug,
+                                                           output_dir=args.output_dir).scrape()
 
     if args.display_results:
         webbrowser.open_new_tab(output_file_path)
