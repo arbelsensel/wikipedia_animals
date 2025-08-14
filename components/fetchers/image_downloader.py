@@ -8,36 +8,42 @@ class ImageDownloader:
     """
     Class handler for downloading images from a url
     """
-    def __init__(self, url: str, file_name: str, directory: str):
+    def __init__(self, url: str, file_name: str, directory: str, raise_on_error: bool = True):
+        """
+        ImageDownloader constructor
+        :param url: url to download from
+        :param file_name: file name to save to
+        :param directory: directory to save to
+        :param raise_on_error: raises exception if download fails
+        """
         self.logger = logging.getLogger(__name__)
         self.url = url
         self.file_path = self.set_file_path(file_name, directory)
+        self.raise_on_error = raise_on_error
 
     def download(self, retries: int = 3):
         """
         Download the image from the url, retries mechanism implemented
         :param retries: amount of times to retry download before raising exception
         """
-        try:
-            for attempt in range(1, retries + 1):
-                try:
-                    response = BaseHTMLFetcher(url=self.url, timeout=10).fetch()
-                    if not response.content:
-                        raise ValueError("Empty content")
+        for attempt in range(1, retries + 1):
+            try:
+                response = BaseHTMLFetcher(url=self.url, timeout=10).fetch()
+                if not response.content:
+                    raise ValueError("Empty content")
 
-                    img_data = response.content
-                    with open(self.file_path, "wb") as f:
-                        f.write(img_data)
+                img_data = response.content
+                with open(self.file_path, "wb") as f:
+                    f.write(img_data)
 
-                    self.logger.info(f"Image downloaded successfully to: {self.file_path}")
+                self.logger.info(f"Image downloaded successfully to: {self.file_path}")
 
-                    break
+                return
 
-                except Exception as e:
-                    self.logger.error(f"Attempt {attempt} | Error downloading image: {e}", exc_info=True)
+            except Exception as e:
+                self.logger.warning(f"Attempt {attempt} | Error downloading image: {e}", exc_info=True)
 
-        except Exception as e:
-            self.logger.error(f"All retries ({retries}) failed | Error downloading image: {e}", exc_info=True)
+        if self.raise_on_error:
             raise e
 
     def set_file_path(self, file_name: str, directory: str) -> str:
