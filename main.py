@@ -2,6 +2,7 @@ import argparse
 import webbrowser
 import logging
 import time
+
 from components.scrapers.wikipedia_collateral_adjective_scraper import WikipediaCollateralAdjectiveScraper
 from utils import abs_path
 
