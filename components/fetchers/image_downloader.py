@@ -26,6 +26,7 @@ class ImageDownloader:
         Download the image from the url, retries mechanism implemented
         :param retries: amount of times to retry download before raising exception
         """
+        last_exception = None
         for attempt in range(1, retries + 1):
             try:
                 response = BaseHTMLFetcher(url=self.url, timeout=10).fetch()
@@ -41,10 +42,11 @@ class ImageDownloader:
                 return
 
             except Exception as e:
+                last_exception = e
                 self.logger.warning(f"Attempt {attempt} | Error downloading image: {e}", exc_info=True)
 
-        if self.raise_on_error:
-            raise e
+        if self.raise_on_error and last_exception:
+            raise last_exception
 
     def set_file_path(self, file_name: str, directory: str) -> str:
         """
