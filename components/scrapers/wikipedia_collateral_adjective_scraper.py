@@ -1,5 +1,6 @@
 import os
 from concurrent.futures import ThreadPoolExecutor
+from typing import Set, Tuple
 
 from components.fetchers.image_downloader import ImageDownloader
 from components.html_generator.wikipedia_html_generators import WikipediaCollateralAdjectiveHTMLGenerator
@@ -18,6 +19,7 @@ class WikipediaCollateralAdjectiveScraper(WikiScraper):
     WIKI_URL = "https://en.wikipedia.org/wiki/List_of_animal_names"
     KEY_HEADER = "Collateral adjective"
     VALUE_HEADER = "Animal"
+    MAX_THREADS = 64
 
     def __init__(self, output_dir: str, use_threading: bool = True):
         """
@@ -41,20 +43,34 @@ class WikipediaCollateralAdjectiveScraper(WikiScraper):
                                             values_extractor=AnimalExtractor(col_idx=value_idx))
 
         mapping_dict = table_scraper.create_mapping()
-        images_set = set().union(*mapping_dict.values())
 
-        if self.use_threading:
-            max_threads = min(64, len(images_set))
-            with ThreadPoolExecutor(max_workers=max_threads) as executor:
-                executor.map(self.download_with_scraper,images_set)
-        else:
-            for image in images_set:
-                self.download_with_scraper(image)
+        # creating set of tuples (animal_name, animal_page_url) to avoid collisions
+        # of same image treated more than once
+        images_set = set().union(*mapping_dict.values())
+        self.download_images_with_scraper(images_set)
 
         return WikipediaCollateralAdjectiveHTMLGenerator(
             output_dir=self.output_dir, output_file_name="output_file").generate_and_save(mapping_dict)
 
-    def download_with_scraper(self, image_tuple):
+    def download_images_with_scraper(self, images_set: Set[Tuple[str, str]]):
+        """
+        Method to handle get images requests and download them
+        If use_threading is True will use ThreadPoolExecutor, otherwise will loop over them.
+        :param images_set:
+        """
+
+        ### The download_image_with_scraper is mostly I/O bound task since it's getting the image by request
+        ### and then writing it to disk, therefore its make sense to use multithreading over it.
+
+        if self.use_threading:
+            max_threads = min(self.MAX_THREADS, len(images_set))
+            with ThreadPoolExecutor(max_workers=max_threads) as executor:
+                executor.map(self.download_image_with_scraper,images_set)
+        else:
+            for image in images_set:
+                self.download_image_with_scraper(image)
+
+    def download_image_with_scraper(self, image_tuple):
         """
         Scrapes wikipedia page to get image url and download it
         :param image_tuple: tuple of (image_name, page_url)

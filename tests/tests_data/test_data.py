@@ -31,3 +31,15 @@ mock_html_table = """
 mock_html_table_headers = ("Header1", "Header2")
 
 mapping_dict_result = defaultdict(list, {'Row1Col1': ['Row1Col2'], 'Row2Col1': ['Row2Col2']})
+
+img_url = "//upload.wikimedia.org/wikipedia/en/thumb/example1.jpg"
+
+mock_wiki_html = f"""
+<html>
+  <body>
+    <img src="{img_url}" />
+    <img src="//upload.wikimedia.org/wikipedia/en/example2.svg" />
+    <img src="//otherdomain.com/image.jpg" />
+  </body>
+</html>
+"""
