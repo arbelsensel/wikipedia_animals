@@ -1,10 +1,12 @@
 import logging
-import os
 from collections import defaultdict
-from typing import Tuple, List, Any, Dict
+from typing import Tuple, List, Dict
 
-import requests
 from bs4 import BeautifulSoup, Tag, ResultSet
+
+from scrapers.extractors.base_extractor import BaseCellsExtractor
+from fetchers.base_fetcher import BaseHTMLFetcher
+from fetchers.image_downloader import ImageDownloader
 
 
 class ImageNotFound(Exception):
@@ -13,19 +15,21 @@ class ImageNotFound(Exception):
 
 class BaseHTMLScraper:
     """
-    Base class for html page scrapers
+    Base class for fetchers page scrapers
     """
     def __init__(self, url: str):
         """
         BaseHTMLScraper constructor
-        :param url: the url of the html page
+        :param url: the url of the fetchers page
         """
         self.logger = logging.getLogger(type(self).__name__)
-        self.url = url
+        self.fetcher = BaseHTMLFetcher(url)
+        html = self.fetcher.fetch_content()
         try:
-            self.soup = BeautifulSoup(requests.get(url).content, 'html.parser')
+            self.soup = BeautifulSoup(html, 'html.parser')
         except Exception as e:
-            raise self.logger.error(f'Failed to scrape {url}: {e}', exc_info=True)
+            self.logger.error(f'Failed to scrape {url}: {e}', exc_info=True)
+            raise e
 
     def get_table_to_map(self, key_header: str, value_header: str) -> Tuple[Tag | None, int | None, int | None]:
         """
@@ -39,10 +43,10 @@ class BaseHTMLScraper:
         for table in tables:
             headers = [th.get_text(strip=True) for th in table.find_all('th')]
             if all(header in headers for header in (key_header, value_header)):
-                self.logger.info(f'Found table with key {key_header} and value {value_header} in {self.url}')
+                self.logger.info(f'Found table with key {key_header} and value {value_header} in {self.fetcher.url}')
                 return table, headers.index(key_header), headers.index(value_header)
 
-        self.logger.warning(f'No table with key {key_header} and value {value_header} found in {self.url}')
+        self.logger.warning(f'No table with key {key_header} and value {value_header} found in {self.fetcher.url}')
         return None, None, None
 
     def get_image_url(self) -> str:
@@ -53,57 +57,15 @@ class BaseHTMLScraper:
 
     def download_image(self, image_name: str, directory: str):
         try:
-            img_url = self.get_image_url()
-            if not img_url:
-                raise ImageNotFound(f"{image_name} not found in {self.url}")
-
-            file_path = self.get_image_path(img_url, image_name, directory)
-            response = requests.get(url=img_url,
-                                    headers={
-                "User-Agent": "WikipediaAnimalScraper/1.0 (https://example.com/contact)"
-            },
-                                    timeout=(5, 10))
-            response.raise_for_status()  # raises for 4xx/5xx
-            if not response.content:
-                raise ValueError("Empty content")
-
-            img_data = response.content
-
-            with open(file_path, "wb") as f:
-                f.write(img_data)
+            ImageDownloader(url=self.get_image_url(), file_name=image_name, directory=directory).download()
         except Exception as e:
             self.logger.error(f"Error downloading image {image_name}: {e}", exc_info=True)
-
-    @staticmethod
-    def get_image_path(img_url, image_name, directory):
-        file_format = os.path.splitext(os.path.basename(img_url))[1]
-        file_name = f"{image_name}{file_format}"
-        file_path = os.path.join(directory, file_name)
-
-        if os.path.exists(file_path):
-            raise FileExistsError(f"File {file_name} already exists in {os.path.dirname(file_path)}")
-
-        return file_path
-
-
-class BaseCellsExtractor:
-    """
-    Base class for all table cells extractors
-    """
-    def __init__(self, col_idx: int):
-        """
-        BaseCellsExtractor constructor
-        :param col_idx: the index of the column to extract in the table
-        """
-        self.col_idx = col_idx
-
-    def extract(self, cells: ResultSet) -> List[Any]:
-        raise NotImplementedError("extract method is not implemented")
+            raise e
 
 
 class BaseTableScraper:
     """
-    Base class for html table scraping
+    Base class for fetchers table scraping
     """
     def __init__(self, table: Tag):
         """
@@ -130,9 +92,10 @@ class BaseTableScraper:
         """
         return row.find_all(['td', 'th'])
 
+
 class TableMappingScraper(BaseTableScraper):
     """
-    Table scraper class to handle general mapping creation from html table.
+    Table scraper class to handle general mapping creation from fetchers table.
     The mapping is based on keys and values extractors, given to the class in initialize.
     """
     def __init__(self, table: Tag, keys_extractor: BaseCellsExtractor, values_extractor: BaseCellsExtractor):

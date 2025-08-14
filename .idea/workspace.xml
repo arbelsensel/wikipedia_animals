@@ -5,17 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8217fd3d-23df-4885-a334-9dae7e0953a5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/scrapers/base_scrapers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scrapers/wikipedia_structures.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_images.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/wikipedia_animals.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/wikipedia_animals.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/html_url/base_fetcher.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/html_url/image_downloader.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scrapers/extractors/base_extractor.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scrapers/extractors/wikipedia_extractors.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scrapers/wikipedia_collateral_adjective_scraper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scraping.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_output.html" beforeDir="false" afterPath="$PROJECT_DIR$/tests/tests_data/test_output.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/output_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scrapers/base_scrapers.py" beforeDir="false" afterPath="$PROJECT_DIR$/scrapers/base_scrapers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scrapers/wikipedia_structures.py" beforeDir="false" afterPath="$PROJECT_DIR$/scrapers/wikipedia_scraper.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,8 +65,10 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\arbel\projects\wikipedia_animals\tests\tests_data" />
       <recent name="C:\Users\arbel\projects\wikipedia_animals\scrapers" />
+      <recent name="C:\Users\arbel\projects\wikipedia_animals\scrapers\extractors" />
+      <recent name="C:\Users\arbel\projects\wikipedia_animals\html" />
+      <recent name="C:\Users\arbel\projects\wikipedia_animals\tests\tests_data" />
       <recent name="C:\Users\arbel\projects\wikipedia_animals\tests" />
     </key>
   </component>
@@ -202,7 +203,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1755095356305</updated>
-      <workItem from="1755095357536" duration="31567000" />
+      <workItem from="1755095357536" duration="41885000" />
     </task>
     <servers />
   </component>
@@ -223,15 +224,19 @@
           <option name="timeStamp" value="44" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <condition expression="image_name == 'Cockroach'" language="Python" />
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>19</line>
-          <option name="timeStamp" value="50" />
+          <url>file://$PROJECT_DIR$/html_url/image_downloader.py</url>
+          <line>22</line>
+          <option name="timeStamp" value="54" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>43</line>
-          <option name="timeStamp" value="51" />
+          <url>file://$PROJECT_DIR$/scrapers/wikipedia_collateral_adjective_scraper.py</url>
+          <line>42</line>
+          <option name="timeStamp" value="62" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/scrapers/wikipedia_collateral_adjective_scraper.py</url>
+          <line>23</line>
+          <option name="timeStamp" value="63" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -239,7 +244,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/wikipedia_animals$pytest_for_tests_test_images_test_download_image.coverage" NAME="pytest for tests.test_images.test_download_image Coverage Results" MODIFIED="1755128392816" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/wikipedia_animals$scraping.coverage" NAME="scraping Coverage Results" MODIFIED="1755122180181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/wikipedia_animals$main.coverage" NAME="main Coverage Results" MODIFIED="1755132847704" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/wikipedia_animals$main.coverage" NAME="main Coverage Results" MODIFIED="1755162796112" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/wikipedia_animals$pytest_in_test_images_py.coverage" NAME="pytest in test_images.py Coverage Results" MODIFIED="1755132210888" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/wikipedia_animals$wiki.coverage" NAME="wiki Coverage Results" MODIFIED="1755114303468" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/wikipedia_animals$view.coverage" NAME="view Coverage Results" MODIFIED="1755120355199" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

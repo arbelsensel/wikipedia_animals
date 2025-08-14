@@ -36,11 +36,12 @@ def generate_html(mapping, file_name: str = "assignment_output", tmp_dir: str = 
     for adj, animals_list in mapping.items():
         animal_cells = ""
         for animal in animals_list:
-            name = animal["name"]
-            if os.path.exists(f"{tmp_dir}/{name.lower()}.jpg"):
-                img_path = f"{tmp_dir}/{name.lower()}.jpg"
-            elif os.path.exists(f"{tmp_dir}/{name.lower()}.png"):
-                img_path = f"{tmp_dir}/{name.lower()}.png"
+            name = animal[0]
+
+            if os.path.exists(os.path.join(tmp_dir, f"{name.lower()}.jpg")):
+                img_path = os.path.join(tmp_dir, f"{name.lower()}.jpg")
+            elif os.path.exists(os.path.join(tmp_dir, f"{name.lower()}.png")):
+                img_path = os.path.join(tmp_dir, f"{name.lower()}.png")
             else:
                 img_path = "No image found"
             # Each animal entry: name + clickable image + local path string
